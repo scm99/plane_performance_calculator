@@ -5,6 +5,7 @@ from scipy.interpolate import interp1d, LinearNDInterpolator, CloughTocher2DInte
 import os
 import fnmatch
 import logging
+from pathlib import Path
 
 class AbstractPerformanceGenerator(ABC):
     """Abstract Class to Calculate Performances for TakeOff.
@@ -78,22 +79,21 @@ class PerformanceGeneratorDR400(AbstractPerformanceGenerator):
         folder = f"{self.type}_{self.subtype}"
         
         # Get performance files
-        logging.debug("Loading the performance files")
-        performance_files = [f'./data/{folder}/dur/{mode}/' + file for file in os.listdir(f'./data/{folder}/dur/{mode}/') if fnmatch.fnmatch(file, '*.txt')]#glob.glob(f"./data/{folder}/dur/{mode}/*.txt")
+        pathHard = Path('data', folder, 'dur', mode)
+        performance_files = [pathHard / file for file in os.listdir(pathHard) if fnmatch.fnmatch(file, '*.txt')]
         files_herbe = False
         if herbe:
-            files_aux = [f'./data/{folder}/herbe/{mode}/' + file for file in os.listdir(f'./data/{folder}/herbe/{mode}/') if fnmatch.fnmatch(file, '*.txt')]#glob.glob(f"./data/{folder}/herbe/{mode}/*.txt")
+            pathGrass = Path('data', folder, 'herbe', mode)
+            files_aux = [pathGrass / file for file in os.listdir(pathGrass) if fnmatch.fnmatch(file, '*.txt')]
             if files_aux:
                 performance_files = files_aux
                 files_herbe = True
-        logging.debug(f"Performance files read: {performance_files}")
         
         # Get Dataframes
         dataframes_performance = []
         for performance_file in performance_files:
             dataframes_performance.append(pd.read_csv(performance_file))
 
-        logging.debug("Performance files loaded")
             
         if mode == 'landing':
             masses = [self.min_landing, self.max_landing]
@@ -130,7 +130,7 @@ class PerformanceGeneratorDR400(AbstractPerformanceGenerator):
         if wind != 0:
             
             # Read Wind Factors
-            dataframe_wind = pd.read_csv(f".\data\{folder}\wind.txt")
+            dataframe_wind = pd.read_csv(Path('data', folder, 'wind.txt'))
             
             # Create Interpolator
             f_wind = interp1d(dataframe_wind.wind, dataframe_wind.factor, fill_value="extrapolate")
@@ -181,11 +181,11 @@ class PerformanceGeneratorAquila(AbstractPerformanceGenerator):
             return '-', '-'
         
         # Get performance files
-        data_altitude = pd.read_csv(f".\data\{folder}\{mode}\altitude.txt")
-        data_mass = pd.read_csv(f".\data\{folder}\{mode}\mass.txt")
-        data_headwind = pd.read_csv(f".\data\{folder}\{mode}\headwind.txt")
-        data_tailwind = pd.read_csv(f".\data\{folder}\{mode}\tailwind.txt")
-        data_distances = pd.read_csv(f".\data\{folder}\{mode}\distances.txt")
+        data_altitude = pd.read_csv(Path("data", folder, mode, "altitude.txt"))
+        data_mass = pd.read_csv(Path("data", folder, mode, "mass.txt"))
+        data_headwind = pd.read_csv(Path("data", folder, mode, "headwind.txt"))
+        data_tailwind = pd.read_csv(Path("data", folder, mode, "tailwind.txt"))
+        data_distances = pd.read_csv(Path("data", folder, mode, "distances.txt"))
         
         # Fist Interpolation - Altitude and Temperature
         f1 = CloughTocher2DInterpolator(list(zip(data_altitude.altitude, data_altitude.temperature)), data_altitude.value)
