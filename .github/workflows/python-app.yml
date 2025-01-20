@@ -12,8 +12,9 @@ permissions:
 
 jobs:
   build:
-    runs-on: windows-10
+    runs-on: windows-latest
     steps:
+    - uses: actions/checkout@v4
     - name: Set up Python 3.12
       uses: actions/setup-python@v3
       with:
