@@ -73,10 +73,10 @@ class PerformanceGeneratorDR400(AbstractPerformanceGenerator):
         folder = f"{self.type}_{self.subtype}"
         
         # Get performance files
-        performance_files = [file for file in os.listdir('.\data\{folder}\dur\{mode}') if fnmatch.fnmatch(file, '*.txt')]#glob.glob(f".\data\{folder}\dur\{mode}\*.txt")
+        performance_files = [f'./data/{folder}/dur/{mode}/' + file for file in os.listdir(f'./data/{folder}/dur/{mode}/') if fnmatch.fnmatch(file, '*.txt')]#glob.glob(f"./data/{folder}/dur/{mode}/*.txt")
         files_herbe = False
         if herbe:
-            files_aux = [file for file in os.listdir('.\data\{folder}\herbe\{mode}') if fnmatch.fnmatch(file, '*.txt')]#glob.glob(f".\data\{folder}\herbe\{mode}\*.txt")
+            files_aux = [f'./data/{folder}/herbe/{mode}/' + file for file in os.listdir(f'./data/{folder}/herbe/{mode}/') if fnmatch.fnmatch(file, '*.txt')]#glob.glob(f"./data/{folder}/herbe/{mode}/*.txt")
             if files_aux:
                 performance_files = files_aux
                 files_herbe = True
@@ -121,7 +121,7 @@ class PerformanceGeneratorDR400(AbstractPerformanceGenerator):
         if wind != 0:
             
             # Read Wind Factors
-            dataframe_wind = pd.read_csv(f".\data\{folder}\wind.txt")
+            dataframe_wind = pd.read_csv(f"./data/{folder}/wind.txt")
             
             # Create Interpolator
             f_wind = interp1d(dataframe_wind.wind, dataframe_wind.factor, fill_value="extrapolate")
@@ -172,11 +172,11 @@ class PerformanceGeneratorAquila(AbstractPerformanceGenerator):
             return '-', '-'
         
         # Get performance files
-        data_altitude = pd.read_csv(f".\data\{folder}\{mode}\altitude.txt")
-        data_mass = pd.read_csv(f".\data\{folder}\{mode}\mass.txt")
-        data_headwind = pd.read_csv(f".\data\{folder}\{mode}\headwind.txt")
-        data_tailwind = pd.read_csv(f".\data\{folder}\{mode}\tailwind.txt")
-        data_distances = pd.read_csv(f".\data\{folder}\{mode}\distances.txt")
+        data_altitude = pd.read_csv(f"./data/{folder}/{mode}/altitude.txt")
+        data_mass = pd.read_csv(f"./data/{folder}/{mode}/mass.txt")
+        data_headwind = pd.read_csv(f"./data/{folder}/{mode}/headwind.txt")
+        data_tailwind = pd.read_csv(f"./data/{folder}/{mode}/tailwind.txt")
+        data_distances = pd.read_csv(f"./data/{folder}/{mode}/distances.txt")
         
         # Fist Interpolation - Altitude and Temperature
         f1 = CloughTocher2DInterpolator(list(zip(data_altitude.altitude, data_altitude.temperature)), data_altitude.value)
