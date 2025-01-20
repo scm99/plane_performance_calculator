@@ -1,8 +1,12 @@
 from PyQt6.QtWidgets import QApplication, QMainWindow
 from view import UiForm
 import sys
+import logging
 
 try:
+    # Configure the logging system 
+    logging.basicConfig(filename ='PerformancesAvion.log', 
+                        level = logging.DEBUG) 
     
     # Generate the app
     app = QApplication(sys.argv)
@@ -21,4 +25,4 @@ try:
     # Start the event loop.
     app.exec()
 except Exception as e: 
-    print(e)
+    logging.error(e)
