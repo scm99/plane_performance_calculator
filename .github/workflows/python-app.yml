@@ -20,10 +20,11 @@ jobs:
         python-version: "3.12"
     - name: Install dependencies
       run: |
+        dir
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install -r .\requirements.txt
         pip install pyinstaller
-        pyinstaller -F -w --icon './data/icon.png' app.py -n 'Performances Avion'
+        pyinstaller -F -w --icon './data/icon.png' -n 'Performances Avion' .\app.py 
     - name: Upload the build
       uses: actions/upload-artifact@v4
       with:
