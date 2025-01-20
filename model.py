@@ -48,9 +48,17 @@ class PerformanceGeneratorDR400(AbstractPerformanceGenerator):
         if subtype == '160':
             self.min_mass = 620
             self.max_mass = 1050
+            self.max_landing = 1045
+            self.min_landing = 850
+            self.max_take_off = 1050
+            self.min_take_off = 850
         if subtype == '180':
             self.min_mass = 570
             self.max_mass = 1100
+            self.max_landing = 1045
+            self.min_landing = 845
+            self.max_take_off = 1100
+            self.min_take_off = 900
             
         
     def calculate_distances(self, mode, altitude, temperature, mass, herbe: bool = False, wind: float = 0) -> tuple[float, float]:
@@ -74,10 +82,13 @@ class PerformanceGeneratorDR400(AbstractPerformanceGenerator):
         
         # Get Dataframes
         dataframes_performance = []
-        masses = []
         for performance_file in performance_files:
             dataframes_performance.append(pd.read_csv(performance_file))
-            masses.append(float(performance_file.split('\\')[-1][:-4]))
+            
+        if mode == 'landing':
+            masses = [self.min_landing, self.max_landing]
+        else:
+            masses = [self.min_take_off, self.max_take_off]
             
         # Collect data from interpolation purposes
         x = np.array([])
