@@ -25,7 +25,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r .\requirements.txt
         pip install pyinstaller
-        pyinstaller -F -w --icon './data/icon.png' -n 'Performances Avion' .\app.py 
+        pyinstaller -F -w --icon './data/icon.ico' -n 'Performances Avion' .\app.py 
     - name: Upload the build
       uses: actions/upload-artifact@v4
       with:
