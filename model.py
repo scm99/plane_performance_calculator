@@ -2,7 +2,8 @@ from abc import ABC, abstractmethod
 import pandas as pd
 import numpy as np
 from scipy.interpolate import interp1d, LinearNDInterpolator, CloughTocher2DInterpolator
-import glob
+import os
+import fnmatch
 
 
 class AbstractPerformanceGenerator(ABC):
@@ -72,10 +73,10 @@ class PerformanceGeneratorDR400(AbstractPerformanceGenerator):
         folder = f"{self.type}_{self.subtype}"
         
         # Get performance files
-        performance_files = glob.glob(f".\data\{folder}\dur\{mode}\*.txt")
+        performance_files = [file for file in os.listdir('.\data\{folder}\dur\{mode}') if fnmatch.fnmatch(file, '*.txt')]#glob.glob(f".\data\{folder}\dur\{mode}\*.txt")
         files_herbe = False
         if herbe:
-            files_aux = glob.glob(f".\data\{folder}\herbe\{mode}\*.txt")
+            files_aux = [file for file in os.listdir('.\data\{folder}\herbe\{mode}') if fnmatch.fnmatch(file, '*.txt')]#glob.glob(f".\data\{folder}\herbe\{mode}\*.txt")
             if files_aux:
                 performance_files = files_aux
                 files_herbe = True
