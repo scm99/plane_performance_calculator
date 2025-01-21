@@ -6,6 +6,7 @@ import os
 import fnmatch
 import logging
 from pathlib import Path
+import glob
 
 class AbstractPerformanceGenerator(ABC):
     """Abstract Class to Calculate Performances for TakeOff.
@@ -79,12 +80,12 @@ class PerformanceGeneratorDR400(AbstractPerformanceGenerator):
         folder = f"{self.type}_{self.subtype}"
         
         # Get performance files
-        pathHard = Path('data', folder, 'dur', mode)
-        performance_files = [pathHard / file for file in os.listdir(pathHard) if fnmatch.fnmatch(file, '*.txt')]
+        pathHard = Path('data', folder, 'dur', mode, '*.txt')
+        performance_files = glob.glob(pathHard)
         files_herbe = False
         if herbe:
-            pathGrass = Path('data', folder, 'herbe', mode)
-            files_aux = [pathGrass / file for file in os.listdir(pathGrass) if fnmatch.fnmatch(file, '*.txt')]
+            pathGrass = Path('data', folder, 'herbe', mode, '*.txt')
+            files_aux = glob.glob(pathGrass)
             if files_aux:
                 performance_files = files_aux
                 files_herbe = True
