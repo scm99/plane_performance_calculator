@@ -3,26 +3,33 @@ from view import UiForm
 import sys
 import logging
 
-try:
-    # Configure the logging system 
-    logging.basicConfig(filename ='PerformancesAvion.log', 
-                        level = logging.DEBUG) 
-    
-    # Generate the app
-    app = QApplication(sys.argv)
+# Configure the logging system 
+logging.basicConfig(filename ='PerformancesAvion.log', 
+                    level = logging.DEBUG,
+                    format = '%(levelname)s: %(asctime)s: %(message)s') 
 
-    # Create a Qt widget, which will be our window.
-    window = QMainWindow()
+def handle_exception(exc_type, exc_value, exc_traceback):
+    if issubclass(exc_type, KeyboardInterrupt):
+        sys.__excepthook__(exc_type, exc_value, exc_traceback)
+        return
 
-    # Setup Window
-    ui = UiForm()
-    ui.setupUi(window)
-    window.show()
+    logging.error("Uncaught exception", exc_info=(exc_type, exc_value, exc_traceback))
 
-    # Styling the app
-    #app.setStyleSheet(Path('style.qss').read_text())
+sys.excepthook = handle_exception
 
-    # Start the event loop.
-    app.exec()
-except Exception as e: 
-    logging.error(e)
+# Generate the app
+app = QApplication(sys.argv)
+
+# Create a Qt widget, which will be our window.
+window = QMainWindow()
+
+# Setup Window
+ui = UiForm()
+ui.setupUi(window)
+window.show()
+
+# Styling the app
+#app.setStyleSheet(Path('style.qss').read_text())
+
+# Start the event loop.
+app.exec()
