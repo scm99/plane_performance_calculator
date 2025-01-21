@@ -3,15 +3,13 @@
 
 name: Python application
 
-on:
-  push:
-    branches: ["main", "reuse-glob"]
+on: [push, pull_request]
 
 permissions:
   contents: read
 
 jobs:
-  build:
+  build-windows:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
@@ -25,9 +23,51 @@ jobs:
           pip install -r .\requirements.txt
           pip install pyinstaller
           pyinstaller -F -w --icon './data/icon.ico' -n 'PerformancesAvion' .\app.py
-      - name: Upload the build
+      - name: Upload the windows build
         uses: actions/upload-artifact@v4
         with:
-          name: Performances Avion
+          name: Performances Avion Windows
           path: dist/PerformancesAvion.exe
+          retention-days: 30
+
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r ./requirements.txt
+          pip install pyinstaller
+          pyinstaller -F -w --icon './data/icon.png' -n 'PerformancesAvion' ./app.py
+      - name: Upload the linux build
+        uses: actions/upload-artifact@v4
+        with:
+          name: Performances Avion Linux
+          path: dist/PerformancesAvion
+          retention-days: 30
+
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r ./requirements.txt
+          pip install pyinstaller
+          pyinstaller -F -w --icon './data/icon.icns' -n 'PerformancesAvion' ./app.py
+      - name: Upload the Mac OS build
+        uses: actions/upload-artifact@v4
+        with:
+          name: Performances Avion Mac OS
+          path: dist/PerformancesAvion.app
           retention-days: 30
