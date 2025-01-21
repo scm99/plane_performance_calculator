@@ -2,8 +2,6 @@ from abc import ABC, abstractmethod
 import pandas as pd
 import numpy as np
 from scipy.interpolate import interp1d, LinearNDInterpolator, CloughTocher2DInterpolator
-import os
-import fnmatch
 import logging
 from pathlib import Path
 import glob
@@ -80,12 +78,12 @@ class PerformanceGeneratorDR400(AbstractPerformanceGenerator):
         folder = f"{self.type}_{self.subtype}"
         
         # Get performance files
-        pathHard = Path('data', folder, 'dur', mode, '*.txt')
-        performance_files = glob.glob(pathHard)
+        pathHard = Path('data', folder, 'dur', mode)
+        performance_files = list(pathHard.glob('*.txt'))
         files_herbe = False
         if herbe:
-            pathGrass = Path('data', folder, 'herbe', mode, '*.txt')
-            files_aux = glob.glob(pathGrass)
+            pathGrass = Path('data', folder, 'herbe', mode)
+            files_aux = list(pathGrass.glob('*.txt'))
             if files_aux:
                 performance_files = files_aux
                 files_herbe = True
