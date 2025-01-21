@@ -76,10 +76,11 @@ class PerformanceGeneratorDR400(AbstractPerformanceGenerator):
         
         # Get folder for selected subtype
         folder = f"{self.type}_{self.subtype}"
-        
         # Get performance files
         pathHard = Path('data', folder, 'dur', mode)
         performance_files = list(pathHard.glob('*.txt'))
+        logging.debug(performance_files)
+
         files_herbe = False
         if herbe:
             pathGrass = Path('data', folder, 'herbe', mode)
