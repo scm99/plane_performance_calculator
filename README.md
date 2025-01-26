@@ -53,4 +53,4 @@ If an error happened in the execution of the application, make sure to send the 
 
 ## License
 
-GPL v3.0
+[GPL v3.0](LICENSE)
