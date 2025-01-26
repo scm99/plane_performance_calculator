@@ -11,7 +11,11 @@
 
 <p align="center">
   <a href="https://github.com/scm99/plane_performance_calculator/releases/download/v1.0/PerformancesAvion.exe">
-    <img src="https://img.shields.io/badge/Download-v1.0-blue"
+    <img src="https://img.shields.io/badge/Windows-v1.0-blue"
+         alt="Gitter">
+  </a>
+  <a href="https://github.com/scm99/plane_performance_calculator/releases/download/v1.0/PerformancesAvion_Linux">
+    <img src="https://img.shields.io/badge/Linux-v1.0-green"
          alt="Gitter">
   </a>
 </p>
