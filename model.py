@@ -2,8 +2,14 @@ from abc import ABC, abstractmethod
 import pandas as pd
 import numpy as np
 from scipy.interpolate import interp1d, LinearNDInterpolator, CloughTocher2DInterpolator
+from data.dr400_160_data import DR400_160_data
+from data.dr400_180_data import DR400_180_data
+from data.data_aquila import Aquila_data
+import os
+import fnmatch
+import logging
+from pathlib import Path
 import glob
-
 
 class AbstractPerformanceGenerator(ABC):
     """Abstract Class to Calculate Performances for TakeOff.
@@ -22,6 +28,11 @@ class AbstractPerformanceGenerator(ABC):
         self.distance_ground_roll = 0
         self.min_mass = 0
         self.max_mass = 0
+
+        # Configure the logging system 
+        logging.basicConfig(filename ='PerformancesAvion.log', 
+                        level = logging.DEBUG,
+                        format = '%(levelname)s: %(asctime)s: %(message)s') 
        
     @abstractmethod 
     def calculate_distances(self, *args) -> tuple[float, float]:
@@ -48,9 +59,19 @@ class PerformanceGeneratorDR400(AbstractPerformanceGenerator):
         if subtype == '160':
             self.min_mass = 620
             self.max_mass = 1050
+            self.max_landing = 1045
+            self.min_landing = 850
+            self.max_take_off = 1050
+            self.min_take_off = 850
+            self.data_tool = DR400_160_data()
         if subtype == '180':
             self.min_mass = 570
             self.max_mass = 1100
+            self.max_landing = 1045
+            self.min_landing = 845
+            self.max_take_off = 1100
+            self.min_take_off = 900
+            self.data_tool = DR400_180_data()
             
         
     def calculate_distances(self, mode, altitude, temperature, mass, herbe: bool = False, wind: float = 0) -> tuple[float, float]:
@@ -60,24 +81,16 @@ class PerformanceGeneratorDR400(AbstractPerformanceGenerator):
             Tuple[float, float]: ground roll and take off distances
         """
         
-        # Get folder for selected subtype
-        folder = f"{self.type}_{self.subtype}"
-        
-        # Get performance files
-        performance_files = glob.glob(f"./data/{folder}/dur/{mode}/*.txt")
-        files_herbe = False
-        if herbe:
-            files_aux = glob.glob(f"./data/{folder}/herbe/{mode}/*.txt")
-            if files_aux:
-                performance_files = files_aux
-                files_herbe = True
-        
         # Get Dataframes
-        dataframes_performance = []
-        masses = []
-        for performance_file in performance_files:
-            dataframes_performance.append(pd.read_csv(performance_file))
-            masses.append(float(performance_file.split('/')[-1][:-4]))
+        runway_type = 'dur'
+        if herbe: 
+            runway_type = 'herbe'
+        dataframes_performance = self.data_tool.get_tabledata(runway_type, mode)
+            
+        if mode == 'landing':
+            masses = [self.min_landing, self.max_landing]
+        else:
+            masses = [self.min_take_off, self.max_take_off]
             
         # Collect data from interpolation purposes
         x = np.array([])
@@ -109,7 +122,7 @@ class PerformanceGeneratorDR400(AbstractPerformanceGenerator):
         if wind != 0:
             
             # Read Wind Factors
-            dataframe_wind = pd.read_csv(f"./data/{folder}/wind.txt")
+            dataframe_wind = self.data_tool.get_wind()
             
             # Create Interpolator
             f_wind = interp1d(dataframe_wind.wind, dataframe_wind.factor, fill_value="extrapolate")
@@ -124,7 +137,7 @@ class PerformanceGeneratorDR400(AbstractPerformanceGenerator):
             distance_ground_roll = distance_ground_roll * wind_factor
             
         # Add Runway type contribution
-        if herbe and not files_herbe:
+        if herbe and self.subtype == '160':
             distance_take_off *= 1.15
             distance_ground_roll *= 1.15
     
@@ -145,6 +158,7 @@ class PerformanceGeneratorAquila(AbstractPerformanceGenerator):
         super().__init__('Aquila', None)
         self.min_mass = 490
         self.max_mass = 750
+        self.data_tool = Aquila_data()
         
     def calculate_distances(self, mode, altitude, temperature, mass, herbe: bool = False, wind: float = 0) -> tuple[float, float]:
         """Calculates Take Off Distance for an Aquila.
@@ -153,18 +167,16 @@ class PerformanceGeneratorAquila(AbstractPerformanceGenerator):
             Tuple[float, float]: ground roll and take off distances
         """
         
-        folder = 'aquila'
-        
         # Maximum Take-Off and Landing Mass
         if mass > 750:
             return '-', '-'
         
         # Get performance files
-        data_altitude = pd.read_csv(f"./data/{folder}/{mode}/altitude.txt")
-        data_mass = pd.read_csv(f"./data/{folder}/{mode}/mass.txt")
-        data_headwind = pd.read_csv(f"./data/{folder}/{mode}/headwind.txt")
-        data_tailwind = pd.read_csv(f"./data/{folder}/{mode}/tailwind.txt")
-        data_distances = pd.read_csv(f"./data/{folder}/{mode}/distances.txt")
+        data_altitude = self.data_tool.get_altitude(mode)
+        data_mass = self.data_tool.get_mass(mode)
+        data_headwind = self.data_tool.get_headwind(mode)
+        data_tailwind = self.data_tool.get_tailwind(mode)
+        data_distances = self.data_tool.get_distances(mode)
         
         # Fist Interpolation - Altitude and Temperature
         f1 = CloughTocher2DInterpolator(list(zip(data_altitude.altitude, data_altitude.temperature)), data_altitude.value)

@@ -367,7 +367,8 @@ class UiForm(object):
         # Results label
         _translate = QtCore.QCoreApplication.translate
         self.label_17 = QtWidgets.QLabel(parent=Window)
-        self.label_17.setGeometry(QtCore.QRect(200, 500, 251, 16))
+        self.label_17.setGeometry(QtCore.QRect(180, 490, 300, 40))
+        self.label_17.setWordWrap(False)
         font = QtGui.QFont()
         font.setPointSize(16)
         font.setBold(True)
@@ -452,7 +453,7 @@ class UiForm(object):
         
         # Title Label
         self.label_14 = QtWidgets.QLabel(parent=Window)
-        self.label_14.setGeometry(QtCore.QRect(140, 10, 381, 81))
+        self.label_14.setGeometry(QtCore.QRect(125, 10, 420, 100))
         font = QtGui.QFont()
         font.setPointSize(25)
         font.setBold(True)
@@ -475,11 +476,11 @@ class UiForm(object):
         
         # Validate Button
         self.validate_button = QtWidgets.QPushButton(parent=Window)
-        self.validate_button.setGeometry(QtCore.QRect(270, 450, 113, 32))
+        self.validate_button.setGeometry(QtCore.QRect(275, 450, 113, 32))
         self.validate_button.setObjectName("validate_button")
         self.validate_button.clicked.connect(self.controller.run)
         
         # Set Label
         _translate = QtCore.QCoreApplication.translate
-        self.validate_button.setText(_translate("Form", "Valider"))
+        self.validate_button.setText(_translate("Form", "Calculer"))
         
