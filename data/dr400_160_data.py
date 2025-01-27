@@ -7,7 +7,7 @@ class DR400_160_data:
     def __init__(self):
         pass
     
-    def get_tabledata(self, runway_type, mode):
+    def get_tabledata(self, mode):
         """Gets the data points for the performances in the minimum and maximum mass scenario.
 
         Args:

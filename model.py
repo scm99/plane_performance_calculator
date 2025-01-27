@@ -82,10 +82,7 @@ class PerformanceGeneratorDR400(AbstractPerformanceGenerator):
         """
         
         # Get Dataframes
-        runway_type = 'dur'
-        if herbe: 
-            runway_type = 'herbe'
-        dataframes_performance = self.data_tool.get_tabledata(runway_type, mode)
+        dataframes_performance = self.data_tool.get_tabledata(mode)
             
         if mode == 'landing':
             masses = [self.min_landing, self.max_landing]
@@ -137,7 +134,7 @@ class PerformanceGeneratorDR400(AbstractPerformanceGenerator):
             distance_ground_roll = distance_ground_roll * wind_factor
             
         # Add Runway type contribution
-        if herbe and self.subtype == '160':
+        if herbe:
             distance_take_off *= 1.15
             distance_ground_roll *= 1.15
     
