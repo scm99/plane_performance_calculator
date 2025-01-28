@@ -48,7 +48,22 @@
 
 ## Download
 
-You can [download here](https://github.com/scm99/plane_performance_calculator/releases/download/v1.0/PerformancesAvion.exe) the latest installable version for Windows. For Linux, you can [download here](https://github.com/scm99/plane_performance_calculator/releases/download/v1.0/PerformancesAvion_Linux). A Mac Os version will be coming soon.
+You can download the latest version of the application for your operating system here:
+- [Linux](https://github.com/scm99/plane_performance_calculator/releases/download/v1.1/PerformancesAvion_Linux);
+- [Mac Os](https://github.com/scm99/plane_performance_calculator/releases/download/v1.1/PerformancesAvion_MacOS);
+- [Windows](https://github.com/scm99/plane_performance_calculator/releases/download/v1.1/PerformancesAvion_Windows.exe).
+
+__Troubleshooting for Mac Os:__
+
+For the first time you're opening the application, it may not open by itself due to security permissions on your Mac. If so, please follow the instructions below to allow you to run the application:
+
+1. On your Mac, choose Apple menu  > System Settings, then click Privacy & Security in the sidebar.
+2. Scroll down to the pop up with the name of the app, then click Open.
+3. Click Open Anyway in the pop up that will open afterwards.
+
+__Troubleshooting for Windows:__
+
+You might get also a pop up concerning the launching of the app. You need to confirm that you want to open the app when the pop up will appear to do so. This should only happen the first time. 
 
 ## Support
 
