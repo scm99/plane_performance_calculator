@@ -1,4 +1,3 @@
-
 <h1 align="center">
   <br>
   <a href=""><img src="data/icon.png" alt="Markdownify" width="200"></a>
@@ -29,47 +28,50 @@
 
 <p align="center"><img width="611" alt="Screenshot 2025-01-26 at 20 13 11" src="https://github.com/user-attachments/assets/82144e5c-5d77-4906-aacc-4aa384ed8e4a" /></p>
 
-
 ## Key Features
 
-* Three plane models supported.
+- Three plane models supported.
   - DR400 with 160 cv;
   - DR400 with 180 cv (Régent);
   - Aquila AT01.
-* Calculation of Take Off and Landing distances
+- Calculation of Take Off and Landing distances
   - Between the limits of the masses in the Flight Manual.
-* 14 Airfields in the South of France to choose from:
+- 14 Airfields in the South of France to choose from:
   - Possibilities include: Lasbordes, Blagnac, Cahors, Carcassonne...
   - Also possible to create a custom airfield with user-defined altitude and type of runway (grass or asphalt).
-* Warnings and help pop-ups are provided to guide the user.
-* Log file is created in case of an error (to be provided to developer for easier troubleshooting).
-* Cross platform
+- Warnings and help pop-ups are provided to guide the user.
+- Log file is created in case of an error (to be provided to developer for easier troubleshooting).
+- Cross platform
   - Windows, and Linux ready. Mac Os coming soon.
 
 ## Download
 
 You can download the latest version of the application for your operating system here:
+
 - [Linux](https://github.com/scm99/plane_performance_calculator/releases/download/v1.1/PerformancesAvion_Linux);
 - [Mac Os](https://github.com/scm99/plane_performance_calculator/releases/download/v1.1/PerformancesAvion_MacOS);
 - [Windows](https://github.com/scm99/plane_performance_calculator/releases/download/v1.1/PerformancesAvion_Windows.exe).
 
-__Troubleshooting for Mac Os:__
+**Troubleshooting for Mac Os:**
 
 For the first time you're opening the application, it may not open by itself due to security permissions on your Mac. If so, please follow the instructions below to allow you to run the application:
 
-1. On your Mac, choose Apple menu  > System Settings, then click Privacy & Security in the sidebar.
+1. On your Mac, choose Apple menu > System Settings, then click Privacy & Security in the sidebar.
 2. Scroll down to the pop up with the name of the app, then click Open.
 3. Click Open Anyway in the pop up that will open afterwards.
 
-__Troubleshooting for Windows:__
+**Troubleshooting for Windows:**
 
-You might get also a pop up concerning the launching of the app. You need to confirm that you want to open the app when the pop up will appear to do so. This should only happen the first time. 
+You might get also a pop up concerning the launching of the app. You need to confirm that you want to open the app when the pop up will appear to do so. This should only happen the first time.
 
 ## Support
 
 If an error happened in the execution of the application, make sure to send the generated .log file with your query for help for easing the troubleshooting.
 
-
 ## License
 
 [GPL v3.0](LICENSE)
+
+## Disclaimer
+
+This application should only be used for educational purposes. It does not replace the flight manual for the planes in question nor a proper preparation of the flight by the pilot.

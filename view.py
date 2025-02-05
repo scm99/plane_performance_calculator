@@ -8,9 +8,9 @@ class UiForm(object):
         
         # Settings of window
         Window.setObjectName("Window")
-        Window.resize(650, 700)
-        Window.setMinimumSize(QtCore.QSize(650, 700))
-        Window.setMaximumSize(QtCore.QSize(650, 700))
+        Window.resize(650, 770)
+        Window.setMinimumSize(QtCore.QSize(650, 750))
+        Window.setMaximumSize(QtCore.QSize(650, 750))
         
         # Controller 
         self.controller = Controller(self)
@@ -464,12 +464,23 @@ class UiForm(object):
         self.label_14.setWordWrap(False)
         self.label_14.setObjectName("label_14")
         
+        # Disclaimer
+        self.label_disclaimer = QtWidgets.QLabel(parent=Window)
+        self.label_disclaimer.setGeometry(QtCore.QRect(80, 665, 500, 100))
+        self.label_disclaimer.setLayoutDirection(QtCore.Qt.LayoutDirection.LeftToRight)
+        self.label_disclaimer.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.label_disclaimer.setObjectName("label_13")
+        font = QtGui.QFont()
+        font.setPointSize(8)
+        self.label_disclaimer.setFont(font)
+        
         # Set Labels
         _translate = QtCore.QCoreApplication.translate
         self.label_7.setText(_translate("Form", "Saisir les données météorologiques"))
         self.label_8.setText(_translate("Form", "Saisir les données de l\'aérodrome"))
         self.label_13.setText(_translate("Form", "Choisir votre avion"))
         self.label_14.setText(_translate("Form", "Calculatrice de Performances"))
+        self.label_disclaimer.setText(_translate("Form", "Disclaimer: Cette application est uniquement destinée à des fins éducatives.\nElle ne remplace pas le manuel de vol ni une préparation adéquate par le pilote.\n\nCrée par: Sara Marques"))
         
         
     def setup_validate_button(self, Window):
